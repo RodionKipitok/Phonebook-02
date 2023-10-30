@@ -26,9 +26,9 @@ class App extends Component {
 		const nanoid = customAlphabet('1234567890abcdef', 10);
 		let contactId = nanoid(5);
 
-		this.setState(({ contacts, name}) => {
+		this.setState(({ contacts, name,number}) => {
 
-			const newContacts = [...contacts, { id: contactId, name}];
+			const newContacts = [...contacts, { id: contactId, name,number}];
 
 			return {contacts: newContacts};
 
