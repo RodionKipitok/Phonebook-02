@@ -118,7 +118,6 @@ class App extends Component {
    render() {
    
 		const filteredContacts = this.onFilterName();
-		const dataContacts = this.state.contacts;
 		
 
     return(

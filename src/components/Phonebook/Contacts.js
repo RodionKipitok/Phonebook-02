@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import '../Phonebook/contact.css';
-import { customAlphabet } from 'nanoid'
+
 
 
 class Contacts extends Component {
 
 	idTransfer= (id) => {
-
-	console.log(this.props);	
 	const {deleteContact} = this.props;
 	deleteContact(id)
-	
 	
  }
 
