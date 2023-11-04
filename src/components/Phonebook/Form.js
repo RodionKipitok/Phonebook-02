@@ -1,23 +1,26 @@
 import React, { Component } from "react";
-import Contacts from "./Contacts";
+import '../Phonebook/form.css';
+import { customAlphabet } from 'nanoid'
 
 class Form extends Component {
 
 	 render() {
 
-	const {state,Change,onSubmit} = this.props;	
+	const {state,Change,onSubmit,onClick} = this.props;
 	
-	
+	const nanoid = customAlphabet('1234567890abcdef', 10);
+	const nameId = nanoid(5);
+	const numberId = nanoid(5);
 
       return (  	
 
 		<>
 		<h1 className="phoneBookTitle">Phonebook</h1>
       <form className="form" onSubmit={onSubmit}>
-			<label className="labelName">
-				Name
+			<label className="label" htmlFor={nameId}>Nama</label>
 			<input
-			  className="imputName"
+			  id={nameId}
+			  className="input"
 			  onChange={Change}
            type="text"
            name="name"
@@ -26,10 +29,10 @@ class Form extends Component {
            required
 			  value={state.name}
               />
-			</label>
-			<label>
-				Number
+			<label className="label" htmlFor={numberId}>Number</label>			
 			<input
+			  id={numberId}
+			  className="input"
 			  onChange={Change}
            type="tel"
            name="number"
@@ -38,10 +41,9 @@ class Form extends Component {
            required
 			  value={state.number}
 />
-			</label>
-			<button type="submit">Add contact</button>
+			<button type="submit" className="btnSend" onClick={onClick}>Add contact</button>
 		</form>
-		<Contacts contact={this.props.state}/>
+		
       </>
 		)
 	 };

@@ -1,23 +1,37 @@
 import React, { Component } from "react";
+import '../Phonebook/contact.css';
+import { customAlphabet } from 'nanoid'
 
 
 class Contacts extends Component {
- 
+
+	idTransfer= (id) => {
+
+	console.log(this.props);	
+	const {deleteContact} = this.props;
+	deleteContact(id)
+	
+	
+ }
 
   
 	render(){
-   
-		const {contact} = this.props;
-		const {contacts}= contact;
+
 	
-   
+	const {data} = this.props;
+
 
 		return(
         <>
-		  <h2>Contacts</h2>
-		  <ul>
-		  {contacts.map(contact => ( <li key={contact.id}>{contact.name} {contact.number}</li>))}
-		  </ul>
+		  <h2 className="titleContact">Contacts</h2>
+		   <ul className="list">
+				{data.map((contact) => (
+				<li className="contactItem" key={contact.id}>{contact.name}   {contact.number}   <button className="btnContact" onClick={() => {
+					this.idTransfer(contact.id)
+				}}>Delete</button></li>
+				))}
+			</ul>
+	
 		  </>
 		 
 
