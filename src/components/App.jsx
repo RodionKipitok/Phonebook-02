@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { customAlphabet } from 'nanoid'
-import Form from "./Phonebook/Form";
+import { PhonebookForm } from "./Phonebook/Form";
 import Filter from "./Phonebook/filter/Filter";
 import Contacts from "./Phonebook/Contacts";
 
@@ -15,8 +15,6 @@ class App extends Component {
 		{id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
 	   ],
 		filter: '',
-		name: '',
-      number: ''
 	 }
 
 
@@ -28,25 +26,21 @@ class App extends Component {
 	 } 
 
 
-	 handleSubmitForm = (evt) => {
+	   saveNewContact = ({ name, number }) => {
 
-		evt.preventDefault();
-
-
-	
 		const nanoid = customAlphabet('1234567890abcdef', 10);
-		let contactId = nanoid(5);
-
-		this.setState(({ contacts, name,number}) => {
-
-			const newContacts = [...contacts, { id: contactId, name,number}];
-
-			return {contacts: newContacts};
-
-	  });
- 
-
-	     this.reset()
+		let id = nanoid(5);
+  
+		this.setState( prevState => {
+			const newContact = {
+				id,
+				name,
+				number
+			}
+			return {
+		     contacts:[...prevState.contacts,newContact]
+			}
+		})
 	
 
 	 }
@@ -69,24 +63,6 @@ class App extends Component {
 
 
 
-		messagesToTheUser = () => {
-			const dataContacts = this.state.contacts;
-         const nameContact = this.state.name;
-			console.log(dataContacts);
-
-		   const isContact = dataContacts.some(({name}) => {
-
-				return nameContact.toLowerCase() === name.toLowerCase()
-
-			})
-       
-          if(!!isContact){
-				alert(`${nameContact} is already in contacts`);
-				this.reset();
-			 }
-			
-		};
-
 
 
 
@@ -108,11 +84,7 @@ class App extends Component {
 	
 
  
-   reset = () => {
 
-     this.setState({name:'',number:''})
-
-   }
   
 
    render() {
@@ -122,7 +94,7 @@ class App extends Component {
 
     return(
       <>
-      <Form state={this.state} Change={this.handleChange} onSubmit={this.handleSubmitForm} onClick={this.messagesToTheUser} />
+		<PhonebookForm  state={this.state}  onSubmit={this.saveNewContact} />
 		<Filter state={this.state}  onChange={this.handleChange}/>
 		<Contacts  data={filteredContacts} deleteContact={this.deleteContact}/>
       </>

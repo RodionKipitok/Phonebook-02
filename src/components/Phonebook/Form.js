@@ -1,55 +1,83 @@
-import React, { Component } from "react";
+import React from "react";
 import '../Phonebook/form.css';
-import { customAlphabet } from 'nanoid'
-
-class Form extends Component {
-
-	 render() {
-
-	const {state,Change,onSubmit,onClick} = this.props;
-	
-	const nanoid = customAlphabet('1234567890abcdef', 10);
-	const nameId = nanoid(5);
-	const numberId = nanoid(5);
-
-      return (  	
-
-		<>
-		<h1 className="phoneBookTitle">Phonebook</h1>
-      <form className="form" onSubmit={onSubmit}>
-			<label className="label" htmlFor={nameId}>Nama</label>
-			<input
-			  id={nameId}
-			  className="input"
-			  onChange={Change}
-           type="text"
-           name="name"
-           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-           required
-			  value={state.name}
-              />
-			<label className="label" htmlFor={numberId}>Number</label>			
-			<input
-			  id={numberId}
-			  className="input"
-			  onChange={Change}
-           type="tel"
-           name="number"
-           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-           required
-			  value={state.number}
-/>
-			<button type="submit" className="btnSend" onClick={onClick}>Add contact</button>
-		</form>
-		
-      </>
-		)
-	 };
+import { customAlphabet } from 'nanoid';
+import { Formik,Form,Field,ErrorMessage } from "formik";
+import * as yup from 'yup';
 
 
+
+const personSchema =  yup.object({
+   name: yup.string()
+     .min(2, 'Too Short!')
+     .max(14, 'Too Long!')
+     .required('Required'),
+    number: yup.number()
+	  .min(8)
+	  .required('Required')
+ });
+
+
+const  initialValues = {
+	name:'',
+	number: ''
 };
 
+export const PhonebookForm = (props) => {
 
-export default Form;
+const {onSubmit,state}	= props;
+
+
+
+const hendelSubmit = (values, actions) => {
+
+	const dataContacts = state.contacts;
+   const nameInput =  values.name;
+
+   console.log(dataContacts);
+	
+	const isContact = dataContacts.some((item) =>  {
+
+      return nameInput.toLowerCase() === item.name.toLowerCase()
+	})
+
+	console.log(isContact);
+
+  
+	 if(!!isContact){
+		alert(`${nameInput} is already in contacts`);
+		actions.resetForm();
+	 }else{
+
+		onSubmit(values);
+	 }
+
+	
+	
+
+}
+  
+	 return (
+	 
+	    <>
+	
+		<h1 className="phoneBookTitle">Phonebook</h1>
+		<Formik initialValues={initialValues} onSubmit={hendelSubmit} validationSchema={personSchema} >
+      <Form className="form">
+	    <label  className="label" htmlFor='name'>Name</label>
+		<Field className="input" type="text" name="name" />
+		<ErrorMessage className="error" name="name" component="span"/>
+
+
+		<label className="label" htmlFor='number'>Number</label>			
+		<Field  className="input" type="tel" name="number"  />
+		<ErrorMessage className="error" name="number" component="span"/>
+		<button type="submit" className="btnSend"  >Add contact</button>
+	  </Form>
+	  </Formik>
+	  </>
+	 )
+
+
+	
+
+};

@@ -39,3 +39,9 @@
 	margin-left: 25px;
 	background-color: rgb(151, 151, 184);
 }
+
+.error{
+	font-size: 10px;
+	color: brown;
+	margin-left: 20px;
+}
