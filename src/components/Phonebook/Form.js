@@ -31,6 +31,7 @@ const hendelSubmit = (values, actions) => {
 
 	const dataContacts = state.contacts;
    const nameInput =  values.name;
+	console.log(actions);
 
    console.log(dataContacts);
 	
@@ -48,6 +49,7 @@ const hendelSubmit = (values, actions) => {
 	 }else{
 
 		onSubmit(values);
+		actions.resetForm()
 	 }
 
 	
