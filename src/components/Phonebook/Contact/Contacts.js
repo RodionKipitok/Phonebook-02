@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+
 import '../Contact/contact.css';
 
 function Contact({ contacts, fucnDelete }) {
